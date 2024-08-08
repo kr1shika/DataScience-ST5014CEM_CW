@@ -78,7 +78,6 @@ colSums(is.na(internet_performance_filtered))
 #FOR BROADBAND SPEED COVERAGE--------------------------------------------------------------------------------------------------------------------------------
 
 broadband_coverage <- read.csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/obtained/boardbandData/201809_fixed_pc_coverage_r01.csv")
-View(broadband_coverage)
 dim(broadband_coverage)
 colnames(broadband_coverage)
 
@@ -121,8 +120,6 @@ broadband_coverage = broadband_coverage %>%
   rename(`postcode_space` = `pcds`, 
          `postcode area` = `pca`)
 
-
-
 broadband_coverage_filtered <- broadband_coverage %>%
   filter(`postcode area` %in% c("BS", "TR", "PL"))
 #checking
@@ -144,20 +141,13 @@ combined_broadband_data <- combined_broadband_data %>%
          `Average.data.usage..GB.`, `All.Premises`, `All.Matched.Premises`)
 
 # View the combined data
-View(combined_broadband_data)
 colSums(is.na(combined_broadband_data))
 dim(combined_broadband_data)
 
 # Save the combined data
 write.csv(combined_broadband_data, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/cleanedBroadband_combined.csv", row.names = FALSE)
 
-# Plotting the combined data
-ggplot(combined_broadband_data, aes(x = `postcode area`, y = `Average.download.speed..Mbit.s.`, fill = `postcode area`)) +
-  geom_boxplot() +
-  labs(title = "Average Download Speeds by Postcode Area",
-       x = "Postcode Area",
-       y = "Average Download Speed (Mbps)") +
-  theme_minimal()
+
 
 
 
