@@ -271,4 +271,8 @@ colSums(is.na(bsCrimeRate2023))
 combined_bsCrimeRate <- bind_rows(bsCrimeRate2021, bsCrimeRate2022, bsCrimeRate2023)
 colSums(is.na(combined_bsCrimeRate))
 
-write.csv(combined_bsCrimeRate, paste0( "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/combined_bsCrimeRate.csv"), row.names = FALSE)
+write.csv(combined_bsCrimeRate, paste0( "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/combined_bsCrimeRate.csv"), row.names = FALSE)
+
+#-----------------------------------------------------------------------------------------
+
+
