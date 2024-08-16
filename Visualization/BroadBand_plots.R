@@ -21,7 +21,6 @@ BroadbandSpeedBoxPlot = bcBroadbandSpeed %>%
   theme_minimal()
 print(BroadbandSpeedBoxPlot)
 
-
 # for interactive plot, 
   # when hovered over the elements of the plot i can view the values as well.
 ggplotly(BroadbandSpeedBoxPlot, tooltip = "text")

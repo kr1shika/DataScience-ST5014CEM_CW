@@ -285,7 +285,6 @@ bristolCrimeRateCleaned= read.csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/D
 #because the column names has "." instead of the space, it should be consistent with the cornwall's dataset column names
 colnames(bristolCrimeRateCleaned) <- gsub("\\.", " ", colnames(bristolCrimeRateCleaned))
 
-
 # Join Bristol crime data with LSOA mapping
 bristolCrimeRateCleaned = bristolCrimeRateCleaned %>% 
   rename(Year = Month) %>% 
@@ -301,11 +300,22 @@ bristolCrimeSummary = bristolCrimeRateCleaned %>%
   arrange(Year)
 View(bristolCrimeSummary)
 
+#adding postcode 
+bristolCrimeRateCleaned = bristolCrimeRateCleaned %>%
+  mutate(Postcode = str_extract(postcode_space, "^\\S+ \\d")) %>% 
+  mutate(Year = ymd(paste0(Year, "-01")))
+#View(bristolCrimeRateCleaned)
+
+cornwallCrimeRateCleaned = cornwallCrimeRateCleaned %>%
+  mutate(Postcode = str_extract(postcode_space, "^\\S+ \\d")) %>% 
+  mutate(Year = ymd(paste0(Year, "-01")))
+view(cornwallCrimeRateCleaned)
+
 #SAVING THE CLEANED DATAS---------------------------------------------
 # Export cleaned datasets to CSV files
-write.csv(bristolCrimeRateCleaned, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/obtained/CrimeData/bristol-crime-rate.csv", row.names = FALSE)
-write.csv(bristolCrimeSummary, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/obtained/CrimeData/bristol-crime-summary.csv", row.names = FALSE)
+write.csv(bristolCrimeRateCleaned, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/bristol_crimedata.csv", row.names = FALSE)
+write.csv(bristolCrimeSummary, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/bristol_crimesummary.csv", row.names = FALSE)
 # Export cleaned datasets to CSV files
-write.csv(cornwallCrimeRateCleaned, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall-crime-rate.csv", row.names = FALSE)
-write.csv(cornwallCrimeSummary, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall-crime-summary.csv", row.names = FALSE)
+write.csv(cornwallCrimeRateCleaned, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall_crimedata.csv", row.names = FALSE)
+write.csv(cornwallCrimeSummary, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall_crimesummary.csv", row.names = FALSE)
 
