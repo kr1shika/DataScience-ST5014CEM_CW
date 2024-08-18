@@ -27,8 +27,8 @@ bristolCrimeRate_2023 = CrimeRate_Bristol %>%
   mutate(Year = as.numeric(format(ymd(Year), "%Y"))) %>% 
   filter(Year == 2023)
 
-Cornwall_data_2023 = merge(cornwallCrimeRate_2023, population2023, by = "Postcode")
-Bristol_data_2023 = merge(bristolCrimeRate_2023, population2023, by = "Postcode")
+Cornwall_data_2023 = merge(cornwallCrimeRate_2023, popn23, by = "Postcode")
+Bristol_data_2023 = merge(bristolCrimeRate_2023, popn23, by = "Postcode")
 combined_data_2023 = bind_rows(Cornwall_data_2023, Bristol_data_2023)
 
 combined_data_2023 = combined_data_2023 %>%
