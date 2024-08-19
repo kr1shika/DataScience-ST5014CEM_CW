@@ -22,9 +22,6 @@ combined_data2023 <- left_join(combined_schools2023, HousePrice_filtered, by = c
 # Remove one of the Year columns
 combined_data2023 <- combined_data2023 %>% select(-Year.y)
 cleaned_data2023 <- combined_data2023 %>% filter(!is.na(Price) & !is.na(ATT8SCR))
-cleaned_data2023 <- cleaned_data2023 %>% 
-  distinct(POSTCODE, .keep_all = TRUE)
-
 #-----------------------------------------
 
 HousePrice_filtered22 <- HousePrice %>% filter(Year == 2022)
@@ -37,9 +34,6 @@ combined_data2022 <- left_join(combined_schools2022, HousePrice_filtered22, by =
 
 combined_data2022 <- combined_data2022 %>% select(-Year.y)
 cleaned_data2022 <- combined_data2022 %>% filter(!is.na(Price) & !is.na(ATT8SCR))
-cleaned_data2022 <- cleaned_data2022 %>% 
-  distinct(POSTCODE, .keep_all = TRUE)
-
 #-----------------------------------------
 
 Main_model <- bind_rows(cleaned_data2022, cleaned_data2023)
@@ -48,9 +42,9 @@ head(Main_model)
 options(scipen = 1000)
 
 # Create the plot
-ggplot(Main_model, aes(x = as.numeric(ATT8SCR), y = as.numeric(Price), color = County)) +
-  geom_point() +
-  geom_smooth(method = "lm", se = FALSE) +  # Optional: add a linear regression line
+ggplot(Main_model, aes(x = as.numeric(ATT8SCR), y = as.numeric(Price))) +
+  geom_point(aes(color = County)) +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +  # Single linear regression line
   labs(
     title = "ATT8SCR vs. House Price for Cornwall and City of Bristol",
     x = "ATT8SCR",
@@ -59,3 +53,5 @@ ggplot(Main_model, aes(x = as.numeric(ATT8SCR), y = as.numeric(Price), color = C
   ) +
   theme_minimal()
 
+
+#

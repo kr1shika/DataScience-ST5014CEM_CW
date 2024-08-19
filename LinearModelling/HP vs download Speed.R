@@ -27,7 +27,7 @@ intercept_value_bristol <- coef(lm_model_bristol)[1]
 slope_value_bristol <- coef(lm_model_bristol)[2]
 
 # Scatter plot of house prices vs download speed
-ggplot(bristol_data_2023, aes(x = DownloadSpeed, y = HousePrice)) +
+plot_bristol=ggplot(bristol_data_2023, aes(x = DownloadSpeed, y = HousePrice)) +
   geom_point(color = "darkgreen", size = 1) +   
   geom_abline(intercept = intercept_value_bristol, slope = slope_value_bristol, color = "orange") +      
   labs(
@@ -35,6 +35,7 @@ ggplot(bristol_data_2023, aes(x = DownloadSpeed, y = HousePrice)) +
     x = "Average Download Speed (Mbit/s)",
     y = "House Price"
   ) +
+  scale_y_continuous(labels = scales::comma, limits = c(0, 25000000)) +  # Adjust limits as needed
   theme_minimal()
 
 #_____________________________________________________________________________________________________________________
@@ -60,12 +61,15 @@ intercept_value_cornwall <- coef(lm_model_cornwall)[1]
 slope_value_cornwall <- coef(lm_model_cornwall)[2]
 
 # laSTLY, THE SCATTER PLOT
-ggplot(cornwall_data_2023, aes(x = DownloadSpeed, y = HousePrice)) +
-  geom_point(color = "darkblue", size = 1) +   
-  geom_abline(intercept = intercept_value_cornwall, slope = slope_value_cornwall, color = "orange") +      
+plot_cornwall <- ggplot(cornwall_data_2023, aes(x = DownloadSpeed, y = HousePrice)) +
+  geom_point(color = "darkblue", size = 1) +
+  geom_abline(intercept = intercept_value_cornwall, slope = slope_value_cornwall, color = "orange") +
   labs(
     title = "Impact of Average Download Speed on House Price in Cornwall (2023)",
     x = "Average Download Speed (Mbit/s)",
     y = "House Price"
   ) +
+  scale_y_continuous(labels = scales::comma, limits = c(0, 20000000)) +  
   theme_minimal()
+
+grid.arrange(plot_bristol, plot_cornwall, nrow = 2)

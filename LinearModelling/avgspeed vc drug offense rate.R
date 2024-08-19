@@ -33,8 +33,6 @@ drug_crimes_Bristol <- merged_Bristol %>%
   summarise(drug_offenses = n(), population = mean(Population)) %>%
   mutate(drug_offenses_per_10000 = (drug_offenses / population) * 10000)
 
-
-
 combined_data <- rbind(
   mutate(drug_crimes_Cornwall, Region = "Cornwall"),
   mutate(drug_crimes_Bristol, Region = "Bristol")

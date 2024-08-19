@@ -1,7 +1,7 @@
 #2. House VS drugRate
 library(tidyverse)
 library(ggplot2)
-
+library(gridExtra)
 HousePrice <- read.csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/HPbristolcornwall.csv")
 BristolCrimeRate=read.csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/bristol_crimedata.csv")
 CornwallCrimeRate=read.csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall_crimedata.csv")
@@ -45,7 +45,7 @@ Bristol_drugrate2023 <- Bristol_drugrate2023 %>%
 bristolHP2023 <- bristolHP2023 %>%
   mutate(Postcode = str_replace_all(Postcode, "\\s+", "") %>% toupper())
 
-nrow(Bristol_drugrate2023)
+#nrow(Bristol_drugrate2023)
 
 # Merge the drug offense rate data with house pricing data
 Bristol_analysis2023 <- Bristol_drugrate2023 %>%
@@ -55,18 +55,8 @@ Bristol_analysis2023 <- Bristol_drugrate2023 %>%
 head(Bristol_analysis2023)
 Bristol_analysis2023 <- Bristol_analysis2023 %>%
   filter(!is.na(shortPostcode) & !is.na(District) & !is.na(Town.City))
-  
-options(scipen = 1000)
-# Create a scatter plot of House Price vs Drug Offense Rate
-ggplot(Bristol_analysis2023, aes(x = drug_offense_rate, y = Price)) +
-  geom_point(color = "darkblue", size = 2) + 
-  geom_smooth(method = "lm", color = "orange", se = FALSE) +
-  labs(title = "House Price vs Drug Offense Rate in Bristol (2023)",
-       x = "Drug Offense Rate (per 10,000 people)",
-       y = "House Price (in GBP)") +
-  theme_minimal()
-#---------------------------------------------------------------------------------
 
+#---------------------------------------------------------------------------------
 
 cornwallHP2023 <- HousePrice %>%
   filter(Year == 2023 & County == "CORNWALL")
@@ -94,11 +84,24 @@ Cornwall_analysis2023 <- Cornwall_drugrate2023 %>%
             by = c("postcode_space" = "Postcode")) %>%
   filter(!is.na(shortPostcode) & !is.na(District) & !is.na(Town.City))
 
-# Plot the data
-ggplot(Cornwall_analysis2023, aes(x = drug_offense_rate, y = Price)) +
-  geom_point(color = "darkgreen", size = 2) + 
-  geom_smooth(method = "lm", color = "red", se = FALSE) +
-  labs(title = "House Price vs Drug Offense Rate in Cornwall (2023)",
+# Plot 1: House Price vs Drug Offense Rate in Bristol (2023)
+plot_bristol <- ggplot(Bristol_analysis2023, aes(x = drug_offense_rate, y = Price)) +
+  geom_point(color = "darkblue", size = 2) + 
+  geom_smooth(method = "lm", color = "orange", se = FALSE) +
+  labs(title = "House Price vs Drug Offense Rate[BRISTOL]",
        x = "Drug Offense Rate (per 10,000 people)",
        y = "House Price (in GBP)") +
   theme_minimal()
+
+# Plot 2: House Price vs Drug Offense Rate in Cornwall (2023)
+plot_cornwall <- ggplot(Cornwall_analysis2023, aes(x = drug_offense_rate, y = Price)) +
+  geom_point(color = "darkgreen", size = 2) + 
+  geom_smooth(method = "lm", color = "red", se = FALSE) +
+  labs(title = "House Price vs Drug Offense Rate[Cornwall] ",
+       x = "Drug Offense Rate (per 10,000 people)",
+       y = "House Price (in GBP)") +
+  theme_minimal()
+
+# Display the two plots together
+grid.arrange(plot_bristol, plot_cornwall, ncol = 2)
+

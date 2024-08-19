@@ -25,7 +25,6 @@ data_2020 <- read_csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment
 # Display first few rows of 2020 data
 head(data_2020)
 
-
 # Load and clean 2021 data
 data_2021 <- raw_data_2021 %>%
   mutate(
@@ -53,7 +52,7 @@ raw_data_2022 <- read_csv("C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assign
                                         'PAON', 'SAON', 'Street', 'Locality', 'Town/City', 'District', 'County', 'PPD_type', 'Record_status'),
                           col_types = cols(.default = "c"))
 
-# Display the first few rows to inspect the Date_of_transfer format
+# Displaying the first few rows to inspect the Date_of_transfer format
 head(raw_data_2022$Date_of_transfer)
 
 data_2022 <- raw_data_2022 %>%

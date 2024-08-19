@@ -195,8 +195,31 @@ dim(crCrimeRate2305)
 colSums(is.na(crCrimeRate2305))
 
 crCrimeRate2306 <- read_csv(paste0(base_path, "2023-06/2023-06-devon-and-cornwall-street.csv"))
-dim(crCrimeRate2306)
-colSums(is.na(crCrimeRate2306))
+
+crCrimeRate2307 <- read_csv(paste0(base_path, "2023-07/2023-07-devon-and-cornwall-street.csv"))
+
+# Load datasets for remaining months in 2023
+crCrimeRate2308 <- read_csv(paste0(base_path, "2023-08/2023-08-devon-and-cornwall-street.csv"))
+dim(crCrimeRate2308)
+colSums(is.na(crCrimeRate2308))
+
+crCrimeRate2309 <- read_csv(paste0(base_path, "2023-09/2023-09-devon-and-cornwall-street.csv"))
+dim(crCrimeRate2309)
+colSums(is.na(crCrimeRate2309))
+
+crCrimeRate2310 <- read_csv(paste0(base_path, "2023-10/2023-10-devon-and-cornwall-street.csv"))
+dim(crCrimeRate2310)
+colSums(is.na(crCrimeRate2310))
+
+crCrimeRate2311 <- read_csv(paste0(base_path, "2023-11/2023-11-devon-and-cornwall-street.csv"))
+dim(crCrimeRate2311)
+colSums(is.na(crCrimeRate2311))
+
+crCrimeRate2312 <- read_csv(paste0(base_path, "2023-12/2023-12-devon-and-cornwall-street.csv"))
+dim(crCrimeRate2312)
+colSums(is.na(crCrimeRate2312))
+
+
 
 # Filter out rows with missing Crime ID for each dataset
 crCrimeRate2301 <- crCrimeRate2301 %>% filter(!is.na(`Crime ID`))
@@ -205,10 +228,17 @@ crCrimeRate2303 <- crCrimeRate2303 %>% filter(!is.na(`Crime ID`))
 crCrimeRate2304 <- crCrimeRate2304 %>% filter(!is.na(`Crime ID`))
 crCrimeRate2305 <- crCrimeRate2305 %>% filter(!is.na(`Crime ID`))
 crCrimeRate2306 <- crCrimeRate2306 %>% filter(!is.na(`Crime ID`))
+crCrimeRate2307 <- crCrimeRate2307 %>% filter(!is.na(`Crime ID`))
 
+crCrimeRate2308 <- crCrimeRate2308 %>% filter(!is.na(`Crime ID`))
+crCrimeRate2309 <- crCrimeRate2309 %>% filter(!is.na(`Crime ID`))
+crCrimeRate2310 <- crCrimeRate2310 %>% filter(!is.na(`Crime ID`))
+crCrimeRate2311 <- crCrimeRate2311 %>% filter(!is.na(`Crime ID`))
+crCrimeRate2312 <- crCrimeRate2312 %>% filter(!is.na(`Crime ID`))
 # Merge all datasets for 2023
 crCrimeRate2023 <- bind_rows(crCrimeRate2301, crCrimeRate2302, crCrimeRate2303, crCrimeRate2304,
                              crCrimeRate2305, crCrimeRate2306)
+crCrimeRate2023 <- bind_rows(crCrimeRate2023,crCrimeRate2307, crCrimeRate2308, crCrimeRate2309, crCrimeRate2310, crCrimeRate2311, crCrimeRate2312)
 
 # Check for missing values
 colSums(is.na(crCrimeRate2023))
@@ -272,12 +302,6 @@ cornwallCrimeRateCleaned = cornwallCrimeRateCleaned %>%
   inner_join(pscdToLsoa, by = "LSOA code")
 dim(cornwallCrimeRateCleaned)
 
-# Summarize number of different crimes in Cornwall from 2021-2023
-cornwallCrimeSummary = cornwallCrimeRateCleaned %>% 
-  group_by(city, Year, `Crime type`) %>% 
-  summarize(CrimeTypeCount = n(), .groups = 'drop') %>% 
-  arrange(Year)
-View(cornwallCrimeSummary)
 
 #now lets do it for BRISTOL----------------------------
 
@@ -290,15 +314,8 @@ bristolCrimeRateCleaned = bristolCrimeRateCleaned %>%
   rename(Year = Month) %>% 
   select(`Crime ID`, Year, `LSOA code`, `LSOA name`, `Crime type`) %>% 
   inner_join(pscdToLsoa, by = "LSOA code")
-View(bristolCrimeRateCleaned)
+#View(bristolCrimeRateCleaned)
 dim(bristolCrimeRateCleaned)
-
-# Summarize number of different crimes in Bristol from 2021-2023
-bristolCrimeSummary = bristolCrimeRateCleaned %>% 
-  group_by(city, Year, `Crime type`) %>% 
-  summarize(CrimeTypeCount = n(), .groups = 'drop') %>% 
-  arrange(Year)
-View(bristolCrimeSummary)
 
 #adding postcode 
 bristolCrimeRateCleaned = bristolCrimeRateCleaned %>%
@@ -309,13 +326,11 @@ bristolCrimeRateCleaned = bristolCrimeRateCleaned %>%
 cornwallCrimeRateCleaned = cornwallCrimeRateCleaned %>%
   mutate(Postcode = str_extract(postcode_space, "^\\S+ \\d")) %>% 
   mutate(Year = ymd(paste0(Year, "-01")))
-view(cornwallCrimeRateCleaned)
+#view(cornwallCrimeRateCleaned)
 
 #SAVING THE CLEANED DATAS---------------------------------------------
 # Export cleaned datasets to CSV files
 write.csv(bristolCrimeRateCleaned, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/bristol_crimedata.csv", row.names = FALSE)
-write.csv(bristolCrimeSummary, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/bristol_crimesummary.csv", row.names = FALSE)
 # Export cleaned datasets to CSV files
 write.csv(cornwallCrimeRateCleaned, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall_crimedata.csv", row.names = FALSE)
-write.csv(cornwallCrimeSummary, "C:/Users/ASUS/OneDrive/Desktop/semester_4th/DS_assignment/CleanedData/CrimeData/cornwall_crimesummary.csv", row.names = FALSE)
 
